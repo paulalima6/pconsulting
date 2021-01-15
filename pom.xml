@@ -49,8 +49,16 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.21</version>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- Migracoes - Flyway 
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency> -->
+
 	</dependencies>
 
 	<build>
