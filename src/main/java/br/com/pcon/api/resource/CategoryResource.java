@@ -54,7 +54,7 @@ public class CategoryResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
 				.buildAndExpand(retorno).toUri();
 		response.setHeader("Location", uri.toASCIIString());
-		return ResponseEntity.ok(retorno); 
+		return ResponseEntity.ok(retorno);
 	}
 	
 	@PostMapping
@@ -65,6 +65,5 @@ public class CategoryResource {
 		response.setHeader("Location", uri.toASCIIString());
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(category);
-		
 	}
 }
