@@ -73,11 +73,11 @@
 		    <artifactId>javax.annotation-api</artifactId>
 		</dependency>
 
-		<!-- Migracoes - Flyway --> 
+		<!-- Migracoes - Flyway  
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-		</dependency> 
+		</dependency> -->
 
 	</dependencies>
 
