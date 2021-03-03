@@ -22,7 +22,6 @@ public class Person {
 	@Embedded
 	private Address adress;
 	
-	@NotNull
 	private Boolean active;
 
 	public Long getId() {
