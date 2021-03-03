@@ -37,7 +37,7 @@ public class PersonResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
 				.buildAndExpand(person.getId()).toUri();
 		
-		response.setHeader("Aninha", uri.toASCIIString());
+		response.setHeader("Local", uri.toASCIIString());
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(person);
 	}
