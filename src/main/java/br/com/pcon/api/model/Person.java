@@ -23,7 +23,7 @@ public class Person {
 	private Address adress;
 	
 	@NotNull
-	private Boolean ativo;
+	private Boolean active;
 
 	public Long getId() {
 		return id;
@@ -49,11 +49,11 @@ public class Person {
 		this.adress = adress;
 	}
 
-	public Boolean getAtivo() {
-		return ativo;
+	public Boolean getActive() {
+		return active;
 	}
 
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 }

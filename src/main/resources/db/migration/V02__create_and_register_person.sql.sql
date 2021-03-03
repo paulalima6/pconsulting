@@ -8,9 +8,7 @@ create table person (
 	neighborhood varchar(100) not null,
 	zip_code varchar(100) not null,
 	city varchar(100) not null,
-	state varchar(100) not null
-	
-	
+	state varchar(100) not null	
 ) engine = InnoDB default charset = utf8;
 
 insert into person(name, active, street, number, additional, neighborhood, zip_code, city, state) values ('Ana Paula', true, 'Estrada Normandia', '137', 'casa 13', 'Jardim Pioneiro', '06705-360', 'Cotia', 'São Paulo');
