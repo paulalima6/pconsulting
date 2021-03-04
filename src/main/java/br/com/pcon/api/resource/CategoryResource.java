@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,7 +59,7 @@ public class CategoryResource {
 	@PostMapping
 	public ResponseEntity<Category> insert(@Valid @RequestBody Category entity, HttpServletResponse response) {
 		Category category = categoryRepository.save(entity);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}")
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
 				.buildAndExpand(category.getId()).toUri();
 		response.setHeader("Location", uri.toASCIIString());
 		
