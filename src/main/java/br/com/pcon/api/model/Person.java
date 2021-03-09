@@ -8,9 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="person")
@@ -73,11 +76,11 @@ public class Person implements Serializable {
 		return result;
 	}
 	
-//	@JsonIgnore
-//	@Transient
-//	public boolean isInactive() {
-//		return !this.active;
-//	}
+	@JsonIgnore
+	@Transient
+	public boolean isInactive() {
+		return !this.active;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
