@@ -36,7 +36,7 @@ public class EntryService {
 	}
 
 	public Entry update(Long id, Entry entity) {
-		Entry returned = findExistenceEntry(entity.getId());
+		Entry returned = findExistenceEntry(id);
 		
 		if(entity.getPerson().equals(returned.getPerson())) {
 			validatePerson(entity);
