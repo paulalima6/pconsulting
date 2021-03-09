@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,6 +66,22 @@ public class PersonResource {
 		publisher.publishEvent(new ResourceCreatedEvent(this, response, person.getId()));
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(person);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Person> update(@PathVariable Long id, @Validated @RequestBody Person entity, HttpServletResponse response) {
+		Optional<Person> person = personRepository.findById(entity.getId());
+		Person returned = new Person();
+		
+		if(!person.isPresent()) {
+			return ResponseEntity.noContent().build();
+		}
+		returned = person.get();
+		BeanUtils.copyProperties(entity, returned, "id");
+		personRepository.save(returned);
+		
+		publisher.publishEvent(new ResourceCreatedEvent(this, response, returned.getId()));
+		return ResponseEntity.ok().body(returned);
 	}
 	
 	@DeleteMapping("/{id}")
