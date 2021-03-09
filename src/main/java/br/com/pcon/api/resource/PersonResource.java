@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -18,11 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.pcon.api.event.ResourceCreatedEvent;
 import br.com.pcon.api.model.Person;
 import br.com.pcon.api.repository.PersonRepository;
+import br.com.pcon.api.service.PersonService;
 
 @RestController
 @RequestMapping("/people")
@@ -30,6 +31,9 @@ public class PersonResource {
 
 	@Autowired
 	private PersonRepository personRepository;
+	
+	@Autowired
+	private PersonService personService;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -68,22 +72,6 @@ public class PersonResource {
 		return ResponseEntity.status(HttpStatus.CREATED).body(person);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<Person> update(@PathVariable Long id, @Validated @RequestBody Person entity, HttpServletResponse response) {
-		Optional<Person> person = personRepository.findById(entity.getId());
-		Person returned = new Person();
-		
-		if(!person.isPresent()) {
-			return ResponseEntity.noContent().build();
-		}
-		returned = person.get();
-		BeanUtils.copyProperties(entity, returned, "id");
-		personRepository.save(returned);
-		
-		publisher.publishEvent(new ResourceCreatedEvent(this, response, returned.getId()));
-		return ResponseEntity.ok().body(returned);
-	}
-	
 	@DeleteMapping("/{id}")
 	public List<Person> delete(@PathVariable Long id) {
 		Optional<Person> person = personRepository.findById(id);
@@ -94,5 +82,18 @@ public class PersonResource {
 		}
 		personRepository.delete(returned);
 		return listAll();
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Person> update(@PathVariable Long id, @Validated @RequestBody Person entity, HttpServletResponse response) {
+		Person person = personService.save(id, entity);
+		return ResponseEntity.ok().body(person);
+	}
+	
+	@PutMapping("/{id}/active")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ResponseEntity<Person> updateStatus(@PathVariable Long id, @RequestBody Boolean status, HttpServletResponse response) {
+		Person person = personService.updateStatus(id, status);
+		return ResponseEntity.ok().body(person);
 	}
 }
